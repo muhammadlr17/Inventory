@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RuangController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('home','home');
 Route::view('user','user');
-Route::view('ruang','ruang');
+Route::resource('ruang',RuangController::class);
 Route::view('inventaris','inventaris');
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
