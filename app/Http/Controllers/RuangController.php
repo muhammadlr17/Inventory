@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ruang;
 
 class RuangController extends Controller
 {
@@ -13,7 +14,10 @@ class RuangController extends Controller
      */
     public function index()
     {
-        //
+        $data = Ruang::all();
+        return view('ruang.index', compact(
+            'data'
+        ));
     }
 
     /**
@@ -23,7 +27,10 @@ class RuangController extends Controller
      */
     public function create()
     {
-        //
+        $model = new Ruang;
+        return view('ruang.create', compact(
+            'model'
+        ));
     }
 
     /**
@@ -34,7 +41,13 @@ class RuangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model = new Ruang;
+        $model->nama = $request->nama;
+        $model->kode_ruang = $request->kode_ruang;
+        $model->keterangan = $request->keterangan;
+        $model->save();
+
+        return redirect('ruang');
     }
 
     /**
@@ -56,7 +69,10 @@ class RuangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $model = Ruang::find($id);
+        return view('ruang.edit', compact(
+            'model'
+        ));
     }
 
     /**
@@ -68,7 +84,13 @@ class RuangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $model = Ruang::find($id);
+        $model->nama = $request->nama;
+        $model->kode_ruang = $request->kode_ruang;
+        $model->keterangan = $request->keterangan;
+        $model->save();
+
+        return redirect('ruang');
     }
 
     /**
@@ -79,6 +101,9 @@ class RuangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Ruang::find($id);
+        $model->delete();
+        
+        return redirect('ruang');
     }
 }

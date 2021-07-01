@@ -18,10 +18,10 @@ use App\Http\Controllers\HomeController;
     return view('welcome');
 }); */
 
-Route::view('home','home');
-Route::view('user','user');
 Route::resource('ruang',RuangController::class);
+
 Route::view('inventaris','inventaris');
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
