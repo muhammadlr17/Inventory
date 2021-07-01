@@ -24,11 +24,11 @@
                                 <a href="{{ url('ruang/'.$row->id.'/edit') }}" class="btn btn-sm btn-info text-light">Edit</a>
                             </td>
                             <td>
-                            <form method="POST" action="{{ url('ruang/'.$row->id) }}">
-                                @csrf
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                            </form>
+                                <form method="POST" action="{{ url('ruang/'.$row->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
