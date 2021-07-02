@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ruang;
+use App\Http\Requests\RuangRequest;
 
 class RuangController extends Controller
 {
@@ -12,11 +13,15 @@ class RuangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Ruang::all();
+        $keyword = $request->keyword;
+        $data = Ruang::where('nama', 'LIKE', '%'.$keyword.'%')
+            ->orWhere('kode_ruang', 'LIKE', '%'.$keyword.'%') 
+            ->orWhere('keterangan', 'LIKE', '%'.$keyword.'%') 
+            ->paginate(2);
         return view('ruang.index', compact(
-            'data'
+            'data', 'keyword'
         ));
     }
 
@@ -39,7 +44,7 @@ class RuangController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RuangRequest $request)
     {
         $model = new Ruang;
         $model->nama = $request->nama;
@@ -47,7 +52,7 @@ class RuangController extends Controller
         $model->keterangan = $request->keterangan;
         $model->save();
 
-        return redirect('ruang');
+        return redirect('ruang')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -82,7 +87,7 @@ class RuangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RuangRequest $request, $id)
     {
         $model = Ruang::find($id);
         $model->nama = $request->nama;
@@ -90,7 +95,7 @@ class RuangController extends Controller
         $model->keterangan = $request->keterangan;
         $model->save();
 
-        return redirect('ruang');
+        return redirect('ruang')->with('success','Data berhasil diperbaharui');
     }
 
     /**
