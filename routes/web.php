@@ -18,6 +18,9 @@ use App\Http\Controllers\HomeController;
     return view('welcome');
 }); */
 
+Route::get('ruang/trash', [RuangController::class,'trash'])->name('ruang.trash');
+Route::get('ruang/restore/{id?}', [RuangController::class,'restore']);
+Route::delete('ruang/delete/{id?}', [RuangController::class,'delete']);
 Route::resource('ruang',RuangController::class);
 
 Route::view('inventaris','inventaris');

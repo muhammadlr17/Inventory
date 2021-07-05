@@ -1,0 +1,61 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            @if(Session::has('success'))
+            <div class="alert alert-success alert-dismissible fade show">{{ Session::get('success')}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            @endif
+            <div class="card">
+                <div class="card-header">Halaman Ruang</div>
+                <div class="card-body">
+                    <a href="{{ url('ruang/restore') }}" class="btn btn-sm btn-info mb-3"><span class="fa fa-undo"></span> Restore All</a>
+                    <form method="POST" action="{{ url('ruang/delete') }}" class="d-inline" onsubmit="return confirm('Data akan dihapus permanen. Yakin?')">
+                        @csrf
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-sm btn-danger mb-3"><span class="fa fa-trash"></span> Delete Permanently All</button>
+                    </form>
+
+                    <table class="table table-bordered">
+                        <tr class="text-center">
+                            <th>Kode Ruang</th>
+                            <th>Nama Ruang</th>
+                            <th>Keterangan</th>
+                            <th>Action</th>
+                        </tr>
+                        @if ($data->count() > 0)
+                        @foreach($data as $row)
+                        <tr>
+                            <td>{{ $row->kode_ruang }}</td>
+                            <td>{{ $row->nama }}</td>
+                            <td>{{ $row->keterangan }}</td>
+                            <td class="text-center">
+                                <a href="{{ url('ruang/restore/'.$row->id) }}" class="btn btn-sm btn-info text-light">Restore</a>
+                                <form method="POST" action="{{ url('ruang/delete/'.$row->id) }}" class="d-inline" onsubmit="return confirm('Data akan dihapus permanen. Yakin?')">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete Permanently</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">Data Kosong</td>
+                            </tr>
+                        @endif
+                    </table>
+                    {{ $data->links() }}
+                    <a href="{{ url('ruang') }}" class="btn btn-sm btn-secondary"><span class="fa fa-arrow-left"></span> Kembali</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection

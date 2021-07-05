@@ -25,7 +25,7 @@ class RuangController extends Controller
         $data = Ruang::where('nama', 'LIKE', '%'.$keyword.'%')
             ->orWhere('kode_ruang', 'LIKE', '%'.$keyword.'%') 
             ->orWhere('keterangan', 'LIKE', '%'.$keyword.'%') 
-            ->paginate(2);
+            ->paginate(5);
         return view('ruang.index', compact(
             'data', 'keyword'
         ));
@@ -52,13 +52,21 @@ class RuangController extends Controller
      */
     public function store(RuangRequest $request)
     {
-        $model = new Ruang;
+        
+        Ruang::create([
+            'nama'       => $request->nama,
+            'kode_ruang' => $request->kode_ruang,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        return redirect('ruang')->with('success', 'Data berhasil disimpan');
+
+        /* $model = new Ruang;
         $model->nama = $request->nama;
         $model->kode_ruang = $request->kode_ruang;
         $model->keterangan = $request->keterangan;
-        $model->save();
+        $model->save(); */
 
-        return redirect('ruang')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -95,12 +103,15 @@ class RuangController extends Controller
      */
     public function update(RuangRequest $request, $id)
     {
-        $model = Ruang::find($id);
-        $model->nama = $request->nama;
-        $model->kode_ruang = $request->kode_ruang;
-        $model->keterangan = $request->keterangan;
-        $model->save();
-
+        /* $model = Ruang::findOrFail($id);
+        $model->update($request->all()); */
+        Ruang::where('id',$id)
+            ->update([
+                'nama'       => $request->nama,
+                'kode_ruang' => $request->kode_ruang,
+                'keterangan' => $request->keterangan
+            ]);
+            
         return redirect('ruang')->with('success','Data berhasil diperbaharui');
     }
 
@@ -115,6 +126,41 @@ class RuangController extends Controller
         $model = Ruang::find($id);
         $model->delete();
         
-        return redirect('ruang');
+        return redirect('ruang')->with('success','Data berhasil dimasukkan ke trash');
+    }
+
+    public function trash()
+    {
+        $data = Ruang::onlyTrashed()
+            ->paginate(5);
+        return view('ruang.trash', compact(
+            'data'
+        ));
+    }
+
+    public function restore($id = null)
+    {
+        if ($id != null) {
+            $model = Ruang::onlyTrashed()
+                ->where('id', $id)
+                ->restore();
+        } else {
+            $model = Ruang::onlyTrashed()->restore();
+        }
+
+        return redirect('ruang/trash')->with('success','Data berhasil direstore');
+    }
+    
+    public function delete($id = null)
+    {
+        if ($id != null) {
+            $model = Ruang::onlyTrashed()
+                ->where('id', $id)
+                ->forceDelete();
+        } else {
+            $model = Ruang::onlyTrashed()->forceDelete();
+        }
+
+        return redirect('ruang/trash')->with('success','Data berhasil dihapus permanen');
     }
 }

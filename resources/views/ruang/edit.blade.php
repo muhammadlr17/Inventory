@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Tambah Data Ruang</div>
+                <div class="card-header">Edit Data Ruang</div>
                 <div class="card-body">
                     <form method="POST" action="{{ url('ruang/'.$model->id) }}">
                         @csrf

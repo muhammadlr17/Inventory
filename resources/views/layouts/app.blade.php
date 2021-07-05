@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('assets/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
