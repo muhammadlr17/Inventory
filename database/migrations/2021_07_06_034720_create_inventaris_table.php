@@ -15,13 +15,15 @@ class CreateInventarisTable extends Migration
     {
         Schema::create('inventaris', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();   
             $table->string('nama');
             $table->string('kode', 10);
             $table->string('kondisi');
             $table->string('keterangan');
             $table->integer('jumlah');
+            $table->string('gambar')->nullable();
             $table->unsignedBigInteger('id_ruang');
+            $table->timestamps();
+            $table->softDeletes();   
             $table->foreign('id_ruang')
                 ->on('ruang')
                 ->references('id');

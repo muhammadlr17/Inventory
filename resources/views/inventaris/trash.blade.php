@@ -14,17 +14,14 @@
                 <div class="card">
                     <div class="card-header">Halaman Ruang</div>
                     <div class="card-body">
-                        <a href="{{ url('ruang/create') }}" class="btn btn-sm btn-primary mb-3"><span
-                                class="fa fa-plus"></span> Tambah Data</a>
-                        <a href="{{ url('ruang/trash') }}" class="btn btn-sm btn-warning text-white mb-3"><span
-                                class="fa fa-trash-alt"></span> Recycle Bin</a>
-
-                        <form class="form-inline" method="GET" action="{{ url('ruang') }}">
-                            <div class="form-group mb-2">
-                                <input name="keyword" class="form-control form-control-sm" type="text"
-                                    value="{{ $keyword }}" placeholder="Cari...">
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-secondary ml-2 mb-2">Cari</button>
+                        <a href="{{ url('ruang/restore') }}" class="btn btn-sm btn-info mb-3"><span
+                                class="fa fa-undo"></span> Restore All</a>
+                        <form method="POST" action="{{ url('ruang/delete') }}" class="d-inline"
+                            onsubmit="return confirm('Data akan dihapus permanen. Yakin?')">
+                            @csrf
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-danger mb-3"><span class="fa fa-trash"></span>
+                                Delete Permanently All</button>
                         </form>
 
                         <table class="table table-bordered">
@@ -41,15 +38,15 @@
                                         <td>{{ $row->nama }}</td>
                                         <td>{{ $row->keterangan }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('ruang/' . $row->id . '/edit') }}"
-                                                class="btn btn-sm btn-info text-light"><span
-                                                    class="fa fa-pencil-alt"></span></a>
-                                            <form method="POST" action="{{ url('ruang/' . $row->id) }}" class="d-inline"
-                                                onsubmit="return confirm('Yakin hapus data?')">
+                                            <a href="{{ url('ruang/restore/' . $row->id) }}"
+                                                class="btn btn-sm btn-info text-light">Restore</a>
+                                            <form method="POST" action="{{ url('ruang/delete/' . $row->id) }}"
+                                                class="d-inline"
+                                                onsubmit="return confirm('Data akan dihapus permanen. Yakin?')">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-sm btn-danger"><span
-                                                        class="fa fa-trash-alt"></span></button>
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete
+                                                    Permanently</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -61,6 +58,8 @@
                             @endif
                         </table>
                         {{ $data->links() }}
+                        <a href="{{ url('ruang') }}" class="btn btn-sm btn-secondary"><span
+                                class="fa fa-arrow-left"></span> Kembali</a>
                     </div>
                 </div>
             </div>

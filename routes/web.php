@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RuangController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +19,19 @@ use App\Http\Controllers\HomeController;
     return view('welcome');
 }); */
 
-Route::get('ruang/trash', [RuangController::class,'trash'])->name('ruang.trash');
-Route::get('ruang/restore/{id?}', [RuangController::class,'restore']);
-Route::delete('ruang/delete/{id?}', [RuangController::class,'delete']);
-Route::resource('ruang',RuangController::class);
 
-Route::view('inventaris','inventaris');
+// Route untuk fitur Ruang
+Route::get('ruang/trash',                   [RuangController::class,'trash']);
+Route::get('ruang/restore/{id?}',           [RuangController::class,'restore']);
+Route::delete('ruang/delete/{id?}',         [RuangController::class,'delete']);
+Route::resource('ruang',                    RuangController::class);
+
+// Route untuk fitur Inventaris
+/* Route::get('inventaris/trash',              [InventarisController::class,'trash']);
+Route::get('inventaris/restore/{id?}',      [InventarisController::class,'restore']);
+Route::delete('inventaris/delete/{id?}',    [InventarisController::class,'delete']); */
+Route::resource('inventaris',               InventarisController::class);
+
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
