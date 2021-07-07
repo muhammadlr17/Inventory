@@ -29,7 +29,6 @@ class InventarisRequest extends FormRequest
             'kondisi' => 'required',
             'keterangan' => 'required',
             'jumlah' => 'required',
-            'gambar' => 'required',
             'id_ruang' => 'required',
         ];
     }

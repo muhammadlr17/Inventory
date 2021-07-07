@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Tambah Data Inventaris</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('inventaris') }}">
+                        <form method="POST" action="{{ url('inventaris') }}" enctype="multipart/form-data">
                             @csrf
                             @include('inventaris._form')
                         </form>

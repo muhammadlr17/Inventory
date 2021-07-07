@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventaris;
+use App\Models\Ruang;
+use App\Http\Requests\InventarisRequest;
+use Illuminate\Support\Facades\File;
 
 class InventarisController extends Controller
 {
@@ -38,8 +41,9 @@ class InventarisController extends Controller
     public function create()
     {
         $model = new Inventaris;
+        $ruang = Ruang::all();
         return view('inventaris.create', compact(
-            'model'
+            'model', 'ruang'
         ));
     }
 
@@ -49,9 +53,19 @@ class InventarisController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InventarisRequest $request)
     {
-        //
+        Inventaris::create([
+            'nama'              => $request->nama,
+            'kode_inventaris'   => $request->kode_inventaris,
+            'kondisi'           => $request->kondisi,
+            'keterangan'        => $request->keterangan,
+            'jumlah'            => $request->jumlah,
+            'gambar'            => $request->gambar,
+            'id_ruang'          => $request->id_ruang,
+        ]);
+
+        return redirect('inventaris')->with('success', 'Data berhasil disimpan');
     }
 
     /**
