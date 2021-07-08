@@ -55,15 +55,21 @@ class InventarisController extends Controller
      */
     public function store(InventarisRequest $request)
     {
+        if($request->file('gambar')){
+            $file = $request->file('gambar');
+            $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+            $file->move('image', $nama_file); 
+
         Inventaris::create([
             'nama'              => $request->nama,
-            'kode_inventaris'   => $request->kode_inventaris,
+            'kode'              => $request->kode_inventaris,
             'kondisi'           => $request->kondisi,
             'keterangan'        => $request->keterangan,
             'jumlah'            => $request->jumlah,
-            'gambar'            => $request->gambar,
+            'gambar'            => $nama_file,
             'id_ruang'          => $request->id_ruang,
         ]);
+    }
 
         return redirect('inventaris')->with('success', 'Data berhasil disimpan');
     }

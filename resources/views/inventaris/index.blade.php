@@ -56,7 +56,7 @@
                                         </td>
                                         <td>{{ $row->keterangan }}</td>
                                         <td>{{ $row->jumlah }}</td>
-                                        <td>{{ $row->gambar }}</td>
+                                        <td><img src="{{ asset('image/.$row->gambar') }}" </td>
                                         <td>{{ $row->id_ruang }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('inventaris/' . $row->id . '/edit') }}"

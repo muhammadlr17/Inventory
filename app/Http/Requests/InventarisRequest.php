@@ -11,10 +11,10 @@ class InventarisRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    /* public function authorize()
     {
         return false;
-    }
+    } */
 
     /**
      * Get the validation rules that apply to the request.
@@ -25,7 +25,7 @@ class InventarisRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'kode' => 'required',
+            'kode_inventaris' => 'required',
             'kondisi' => 'required',
             'keterangan' => 'required',
             'jumlah' => 'required',

@@ -7,9 +7,9 @@
 </div>
 <div class="form-group">
     <label for="kodeInventaris">Kode Inventaris</label>
-    <input type="text" name="kode_Inventaris" class="form-control" id="kodeInventaris"
+    <input type="text" name="kode_inventaris" class="form-control" id="kodeInventaris"
         value="{{ $model->kode_Inventaris }}">
-    @foreach ($errors->get('kode_Inventaris') as $message)
+    @foreach ($errors->get('kode_inventaris') as $message)
         <small class="text-danger">{{ $message }}</small>
     @endforeach
 </div>
