@@ -25,10 +25,11 @@ class InventarisRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'kode_inventaris' => 'required',
+            'kode_inventaris' => 'required|max:5',
             'kondisi' => 'required',
             'keterangan' => 'required',
             'jumlah' => 'required',
+            'gambar' => 'required',
             'id_ruang' => 'required',
         ];
     }

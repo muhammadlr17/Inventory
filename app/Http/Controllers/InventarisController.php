@@ -69,9 +69,13 @@ class InventarisController extends Controller
             'gambar'            => $nama_file,
             'id_ruang'          => $request->id_ruang,
         ]);
-    }
+        
+            return redirect('inventaris')->with('success', 'Data berhasil disimpan');
+        
+        }else{
+            return redirect('inventaris')->with('failed', 'Data gagal disimpan');
+        }
 
-        return redirect('inventaris')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -93,7 +97,11 @@ class InventarisController extends Controller
      */
     public function edit($id)
     {
-        //
+        $model = Inventaris::find($id);
+        $ruang = Ruang::all();
+        return view('inventaris.edit', compact(
+            'model', 'ruang'
+        ));
     }
 
     /**
@@ -103,9 +111,31 @@ class InventarisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InventarisRequest $request, $id)
     {
-        //
+        $model = Inventaris::find($id);
+        if($request->file('gambar')){
+            $file = $request->file('gambar');
+            $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+            $file->move('image', $nama_file); 
+            
+            File::delete('image', $model->gambar);
+
+        $model->update([
+                'nama'              => $request->nama,
+                'kode'              => $request->kode_inventaris,
+                'kondisi'           => $request->kondisi,
+                'keterangan'        => $request->keterangan,
+                'jumlah'            => $request->jumlah,
+                'gambar'            => $nama_file,
+                'id_ruang'          => $request->id_ruang,
+        ]);
+        
+            return redirect('inventaris')->with('success', 'Data berhasil diperbaharui');
+        
+        }else{
+            return redirect('inventaris')->with('failed', 'Data gagal diperbaharui');
+        }
     }
 
     /**
@@ -116,6 +146,9 @@ class InventarisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Inventaris::find($id);
+        $model->delete();
+        
+        return redirect('inventaris')->with('success','Data berhasil dimasukkan ke trash');
     }
 }

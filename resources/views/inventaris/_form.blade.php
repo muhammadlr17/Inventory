@@ -7,8 +7,8 @@
 </div>
 <div class="form-group">
     <label for="kodeInventaris">Kode Inventaris</label>
-    <input type="text" name="kode_inventaris" class="form-control" id="kodeInventaris"
-        value="{{ $model->kode_Inventaris }}">
+    <input type="text" name="kode_inventaris" maxlength="5" class="form-control" id="kodeInventaris"
+        value="{{ $model->kode }}">
     @foreach ($errors->get('kode_inventaris') as $message)
         <small class="text-danger">{{ $message }}</small>
     @endforeach
@@ -17,9 +17,32 @@
     <label for="kondisi">Kondisi</label>
     <select id="kondisi" name="kondisi" class="form-control">
         <option selected>Pilih Kondisi</option>
-        <option value="1">Baik</option>
-        <option value="2">Rusak Ringan</option>
-        <option value="3">Rusak Berat</option>
+        @php
+            $baik = '';
+            $rusak_ringan = '';
+            $rusak_berat = '';
+        @endphp
+        @switch($model->kondisi)
+            @case('1')
+                @php($baik = 'selected')
+            @break
+
+            @case('2')
+                @php($rusak_ringan = 'selected')
+            @break
+
+            @case('3')
+                @php($rusak_berat = 'selected')
+            @break
+
+            @default
+                @php($baik = '')
+                @php($rusak_ringan = '')
+                @php($rusak_berat = '')
+        @endswitch
+        <option {{ $baik }} value="1">Baik</option>
+        <option {{ $rusak_ringan }} value="2">Rusak Ringan</option>
+        <option {{ $rusak_berat }} value="3">Rusak Berat</option>
     </select>
     @foreach ($errors->get('kondisi') as $message)
         <small class="text-danger">{{ $message }}</small>
@@ -41,23 +64,31 @@
 </div>
 <div class="form-group">
     <label for="gambar">Gambar</label>
-    <div class="custom-file">
-        <input type="file" name="gambar" class="custom-file-input" id="gambar">
-        <label class="custom-file-label" for="gambar">Choose file</label>
-    </div>
+    <input type="file" name="gambar" class="form-control-file border" id="gambar" value="{{ $model->gambar }}">
     @foreach ($errors->get('gambar') as $message)
         <small class="text-danger">{{ $message }}</small>
     @endforeach
+    @if (strlen($model->gambar) > 0)
+        <img src="{{ asset('image/' . $model->gambar) }}" width="80px" class="mt-1">
+    @endif
 </div>
 <div class="form-group">
     <label for="id_ruang">Ruang</label>
     <select id="id_ruang" name="id_ruang" class="form-control">
         <option selected>Pilih Ruang</option>
-        @foreach ($ruang as $dataRuang)
+        {{-- @foreach ($ruang as $dataRuang)
             <option value="{{ $dataRuang->id }}">{{ $dataRuang->nama }}</option>
+        @endforeach --}}
+        @foreach ($ruang as $dataRuang)
+            @if ($dataRuang->id == $model->id_ruang)
+                @php($select = 'selected')
+            @else
+                @php($select = '')
+            @endif
+            <option {{ $select }} value="{{ $dataRuang->id }}">{{ $dataRuang->nama }}</option>
         @endforeach
     </select>
-    @foreach ($errors->get('kondisi') as $message)
+    @foreach ($errors->get('id_ruang') as $message)
         <small class="text-danger">{{ $message }}</small>
     @endforeach
 </div>

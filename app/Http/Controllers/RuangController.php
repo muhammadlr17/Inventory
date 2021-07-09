@@ -105,8 +105,8 @@ class RuangController extends Controller
     {
         /* $model = Ruang::findOrFail($id);
         $model->update($request->all()); */
-        Ruang::where('id',$id)
-            ->update([
+        $model = Ruang::where('id',$id);
+        $model->update([
                 'nama'       => $request->nama,
                 'kode_ruang' => $request->kode_ruang,
                 'keterangan' => $request->keterangan

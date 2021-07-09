@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Edit Data Inventaris</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('inventaris/' . $model->id) }}">
+                        <form method="POST" action="{{ url('inventaris/' . $model->id) }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="_method" value="PATCH">
 

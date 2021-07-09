@@ -25,7 +25,7 @@ class RuangRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'kode_ruang' => 'required',
+            'kode_ruang' => 'required|max:5',
             'keterangan' => 'required'
         ];
     }

@@ -11,6 +11,13 @@
                         </button>
                     </div>
                 @endif
+                @if (Session::has('failed'))
+                    <div class="alert alert-danger alert-dismissible fade show">{{ Session::get('failed') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">Halaman Inventaris</div>
                     <div class="card-body">
@@ -56,8 +63,11 @@
                                         </td>
                                         <td>{{ $row->keterangan }}</td>
                                         <td>{{ $row->jumlah }}</td>
-                                        <td class="text-center"><img src="{{ asset('image/' . $row->gambar) }}"
-                                                width="80px"> </td>
+                                        <td class="text-center">
+                                            @if (strlen($row->gambar) > 0)
+                                                <img src="{{ asset('image/' . $row->gambar) }}" width="80px">
+                                            @endif
+                                        </td>
                                         <td>{{ $row->id_ruang }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('inventaris/' . $row->id . '/edit') }}"
@@ -75,7 +85,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="4" class="text-center">Data Kosong</td>
+                                    <td colspan="8" class="text-center">Data Kosong</td>
                                 </tr>
                             @endif
                         </table>
