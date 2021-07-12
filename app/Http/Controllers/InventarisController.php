@@ -24,9 +24,12 @@ class InventarisController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->keyword;
-        $data = Inventaris::where('nama', 'LIKE', '%'.$keyword.'%')
+        $data = Inventaris::select('inventaris.*', 'ruang.nama as ruang')
+            ->join('ruang','ruang.id','=','inventaris.id_ruang')
+            ->where('inventaris.nama', 'LIKE', '%'.$keyword.'%')
             ->orWhere('kode', 'LIKE', '%'.$keyword.'%') 
-            ->orWhere('keterangan', 'LIKE', '%'.$keyword.'%') 
+            ->orWhere('inventaris.keterangan', 'LIKE', '%'.$keyword.'%') 
+            ->orWhere('ruang.nama', 'LIKE', '%'.$keyword.'%')
             ->paginate(5);
         return view('inventaris.index', compact(
             'data', 'keyword'
@@ -115,11 +118,11 @@ class InventarisController extends Controller
     {
         $model = Inventaris::find($id);
         if($request->file('gambar')){
+            File::delete('image/'.$model->gambar);
             $file = $request->file('gambar');
             $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
             $file->move('image', $nama_file); 
             
-            File::delete('image', $model->gambar);
 
         $model->update([
                 'nama'              => $request->nama,
@@ -150,5 +153,40 @@ class InventarisController extends Controller
         $model->delete();
         
         return redirect('inventaris')->with('success','Data berhasil dimasukkan ke trash');
+    }
+
+    public function trash()
+    {
+        $data = Inventaris::onlyTrashed()
+            ->paginate(5);
+        return view('inventaris.trash', compact(
+            'data'
+        ));
+    }
+
+    public function restore($id = null)
+    {
+        if ($id != null) {
+            $model = Inventaris::onlyTrashed()
+                ->where('id', $id)
+                ->restore();
+        } else {
+            $model = Inventaris::onlyTrashed()->restore();
+        }
+        
+        return redirect('inventaris/trash')->with('success','Data berhasil direstore');
+    }
+    
+    public function delete($id = null)
+    {
+        if ($id != null) {
+            $model = Inventaris::onlyTrashed()
+                ->where('id', $id)
+                ->forceDelete();
+        } else {
+            $model = Inventaris::onlyTrashed()->forceDelete();
+        }
+
+        return redirect('inventaris/trash')->with('success','Data berhasil dihapus permanen');
     }
 }

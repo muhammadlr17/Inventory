@@ -68,7 +68,7 @@
                                                 <img src="{{ asset('image/' . $row->gambar) }}" width="80px">
                                             @endif
                                         </td>
-                                        <td>{{ $row->id_ruang }}</td>
+                                        <td>{{ $row->ruang }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('inventaris/' . $row->id . '/edit') }}"
                                                 class="btn btn-sm btn-info text-light"><span

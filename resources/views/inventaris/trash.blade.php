@@ -12,11 +12,11 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">Halaman Ruang</div>
+                    <div class="card-header">Recycle Bin Inventaris</div>
                     <div class="card-body">
-                        <a href="{{ url('ruang/restore') }}" class="btn btn-sm btn-info mb-3"><span
+                        <a href="{{ url('inventaris/restore') }}" class="btn btn-sm btn-info mb-3"><span
                                 class="fa fa-undo"></span> Restore All</a>
-                        <form method="POST" action="{{ url('ruang/delete') }}" class="d-inline"
+                        <form method="POST" action="{{ url('inventaris/delete') }}" class="d-inline"
                             onsubmit="return confirm('Data akan dihapus permanen. Yakin?')">
                             @csrf
                             <input type="hidden" name="_method" value="DELETE">
@@ -26,21 +26,43 @@
 
                         <table class="table table-bordered">
                             <tr class="text-center">
-                                <th>Kode Ruang</th>
-                                <th>Nama Ruang</th>
+                                <th>Kode Inventaris</th>
+                                <th>Nama Inventaris</th>
+                                <th>Kondisi</th>
                                 <th>Keterangan</th>
+                                <th>Jumlah</th>
+                                <th>Gambar</th>
+                                <th>ID Ruang</th>
                                 <th>Action</th>
                             </tr>
                             @if ($data->count() > 0)
                                 @foreach ($data as $row)
                                     <tr>
-                                        <td>{{ $row->kode_ruang }}</td>
+                                        <td>{{ $row->kode }}</td>
                                         <td>{{ $row->nama }}</td>
+                                        <td>
+                                            @if ($row->kondisi == '1')
+                                                Baik
+                                            @elseif ($row->kondisi == '2')
+                                                Rusak Ringan
+                                            @elseif ($row->kondisi == '3')
+                                                Rusak Berat
+                                            @else
+                                                Not Define
+                                            @endif
+                                        </td>
                                         <td>{{ $row->keterangan }}</td>
+                                        <td>{{ $row->jumlah }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('ruang/restore/' . $row->id) }}"
+                                            @if (strlen($row->gambar) > 0)
+                                                <img src="{{ asset('image/' . $row->gambar) }}" width="80px">
+                                            @endif
+                                        </td>
+                                        <td>{{ $row->id_ruang }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ url('inventaris/restore/' . $row->id) }}"
                                                 class="btn btn-sm btn-info text-light">Restore</a>
-                                            <form method="POST" action="{{ url('ruang/delete/' . $row->id) }}"
+                                            <form method="POST" action="{{ url('inventaris/delete/' . $row->id) }}"
                                                 class="d-inline"
                                                 onsubmit="return confirm('Data akan dihapus permanen. Yakin?')">
                                                 @csrf
@@ -53,12 +75,12 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="4" class="text-center">Data Kosong</td>
+                                    <td colspan="8" class="text-center">Data Kosong</td>
                                 </tr>
                             @endif
                         </table>
                         {{ $data->links() }}
-                        <a href="{{ url('ruang') }}" class="btn btn-sm btn-secondary"><span
+                        <a href="{{ url('inventaris') }}" class="btn btn-sm btn-secondary"><span
                                 class="fa fa-arrow-left"></span> Kembali</a>
                     </div>
                 </div>
