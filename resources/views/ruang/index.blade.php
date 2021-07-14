@@ -29,6 +29,7 @@
 
                         <table class="table table-bordered">
                             <tr class="text-center">
+                                <th scope="row">#</th>
                                 <th>Kode Ruang</th>
                                 <th>Nama Ruang</th>
                                 <th>Keterangan</th>
@@ -37,6 +38,7 @@
                             @if ($data->count() > 0)
                                 @foreach ($data as $row)
                                     <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $row->kode_ruang }}</td>
                                         <td>{{ $row->nama }}</td>
                                         <td>{{ $row->keterangan }}</td>

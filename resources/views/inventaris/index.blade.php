@@ -36,6 +36,7 @@
 
                         <table class="table table-bordered">
                             <tr class="text-center">
+                                <th scope="row">#</th>
                                 <th>Kode Inventaris</th>
                                 <th>Nama Inventaris</th>
                                 <th>Kondisi</th>
@@ -48,6 +49,7 @@
                             @if ($data->count() > 0)
                                 @foreach ($data as $row)
                                     <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $row->kode }}</td>
                                         <td>{{ $row->nama }}</td>
                                         <td>
