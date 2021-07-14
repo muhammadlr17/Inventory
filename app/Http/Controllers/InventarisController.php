@@ -149,8 +149,7 @@ class InventarisController extends Controller
      */
     public function destroy($id)
     {
-        $model = Inventaris::find($id);
-        $model->delete();
+        Inventaris::find($id)->delete();
         
         return redirect('inventaris')->with('success','Data berhasil dimasukkan ke trash');
     }
@@ -166,12 +165,11 @@ class InventarisController extends Controller
 
     public function restore($id = null)
     {
+        $model = Inventaris::onlyTrashed();
         if ($id != null) {
-            $model = Inventaris::onlyTrashed()
-                ->where('id', $id)
-                ->restore();
+            $model->where('id', $id)->restore();
         } else {
-            $model = Inventaris::onlyTrashed()->restore();
+            $model->restore();
         }
         
         return redirect('inventaris/trash')->with('success','Data berhasil direstore');
@@ -179,12 +177,11 @@ class InventarisController extends Controller
     
     public function delete($id = null)
     {
+        $model = Inventaris::onlyTrashed();
         if ($id != null) {
-            $model = Inventaris::onlyTrashed()
-                ->where('id', $id)
-                ->forceDelete();
+            $model->where('id', $id)->forceDelete();
         } else {
-            $model = Inventaris::onlyTrashed()->forceDelete();
+            $model->forceDelete();
         }
 
         return redirect('inventaris/trash')->with('success','Data berhasil dihapus permanen');

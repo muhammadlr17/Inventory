@@ -61,12 +61,6 @@ class RuangController extends Controller
 
         return redirect('ruang')->with('success', 'Data berhasil disimpan');
 
-        /* $model = new Ruang;
-        $model->nama = $request->nama;
-        $model->kode_ruang = $request->kode_ruang;
-        $model->keterangan = $request->keterangan;
-        $model->save(); */
-
     }
 
     /**
@@ -123,8 +117,7 @@ class RuangController extends Controller
      */
     public function destroy($id)
     {
-        $model = Ruang::find($id);
-        $model->delete();
+        Ruang::find($id)->delete();
         
         return redirect('ruang')->with('success','Data berhasil dimasukkan ke trash');
     }
@@ -140,12 +133,11 @@ class RuangController extends Controller
 
     public function restore($id = null)
     {
+        $model = Ruang::onlyTrashed();
         if ($id != null) {
-            $model = Ruang::onlyTrashed()
-                ->where('id', $id)
-                ->restore();
+            $model->where('id', $id)->restore();
         } else {
-            $model = Ruang::onlyTrashed()->restore();
+            $model->restore();
         }
 
         return redirect('ruang/trash')->with('success','Data berhasil direstore');
@@ -153,12 +145,11 @@ class RuangController extends Controller
     
     public function delete($id = null)
     {
+        $model = Ruang::onlyTrashed();
         if ($id != null) {
-            $model = Ruang::onlyTrashed()
-                ->where('id', $id)
-                ->forceDelete();
+            $model->where('id', $id)->forceDelete();
         } else {
-            $model = Ruang::onlyTrashed()->forceDelete();
+            $model->forceDelete();
         }
 
         return redirect('ruang/trash')->with('success','Data berhasil dihapus permanen');
