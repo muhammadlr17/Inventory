@@ -27,6 +27,7 @@ Route::delete('ruang/delete/{id?}',         [RuangController::class,'delete']);
 Route::resource('ruang',                    RuangController::class);
 
 // Route untuk fitur Inventaris
+Route::get('inventaris/print',              [InventarisController::class,'printInventaris']);
 Route::get('inventaris/trash',              [InventarisController::class,'trash']);
 Route::get('inventaris/restore/{id?}',      [InventarisController::class,'restore']);
 Route::delete('inventaris/delete/{id?}',    [InventarisController::class,'delete']);

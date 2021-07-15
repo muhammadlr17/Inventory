@@ -7,6 +7,7 @@ use App\Models\Inventaris;
 use App\Models\Ruang;
 use App\Http\Requests\InventarisRequest;
 use Illuminate\Support\Facades\File;
+use PDF;
 
 class InventarisController extends Controller
 {
@@ -185,5 +186,16 @@ class InventarisController extends Controller
         }
 
         return redirect('inventaris/trash')->with('success','Data berhasil dihapus permanen');
+    }
+
+    public function printInventaris()
+    {
+        $data = Inventaris::select('inventaris.*', 'ruang.nama as ruang')
+            ->join('ruang','ruang.id','=','inventaris.id_ruang')
+            ->get();
+        $pdf = PDF::loadView('inventaris.print', compact('data'))->setPaper('a4','landscape')->setWarnings(false);
+        return $pdf->download('Inventaris.pdf');
+
+     /*    return view ('inventaris.print', compact('data')); */
     }
 }
